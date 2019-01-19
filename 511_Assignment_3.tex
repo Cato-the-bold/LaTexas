@@ -1,0 +1,247 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Adapted from a template by
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=12pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage[ruled,linesnumbered,noend]{algorithm2e} % For typesetting algorithms
+
+\usepackage{graphicx} % For including figures
+\usepackage{subcaption}
+\usepackage{wrapfig}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\usepackage{geometry}
+\geometry{a4paper,scale=0.9}
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\linespread{1.1}
+\setlength{\parskip}{0.5\baselineskip}
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Iowa State University, Computer Science Department} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Computer Science 511 \\ Assignment \uppercase\expandafter{\romannumeral2} \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Kun Ji} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+\section*{Problem 1}
+%----------------------------------------------------------------------------------------
+Suppose $n=|X|=|Y|$, 
+The upper bound on the length of any augmenting path is $2n+1$.
+\begin{proof}
+Suppose an new augmenting path exists. Then there is some edge $(s,x_i) \in $ residual graph $G_f$. \par
+\begin{enumerate}
+\item Start from vertex $x_i$, some $(x_i,y_j \in R) \in G_f$; Otherwise, no path leads to $t$. For vertex $y_j$, we have to consider two situations:
+\begin{enumerate}
+\item $(y_j,t) \in G_f$. That means $\not \exists(y_j, x_k \in L) \in G_f$ by flow conservation. So the next vertex on the path can only be $t$.
+\item $(t,y_j) \in G_f$. That means $\exists(y_j, x_k \in L) \in G_f$ by flow conservation. So the next vertex on the path can only be $x_k$. So we can cancel the flow on $(x_k,y_j)$ and augment the flow on $(x_i,y_j)$. neither $x_i$ nor $y_j$ will be on the augmenting path because $(s,x_i),(x_i,y_j)$ and $(y_j,t)$ are saturated. Then we can go to step 1 to pick the next edge for $x_k$.
+\end{enumerate}
+\end{enumerate}
+
+Step 1 can be performed for at most $n$ times and every $v \in \{L \cup R\}$ may occur only once in the augmenting path. Thus, the longest augmenting path is of $2n-1+1+1 = 2n+1$.
+
+\end{proof}
+
+%----------------------------------------------------------------------------------------
+\section*{Problem 2}
+\paragraph{(a)}
+Let $X = \{x_O,x_A,x_B,x_{AB}\}, Y=\{y_O,y_A,y_B,y_{AB}\}, S=\{s_O,s_A,s_B,s_{AB}\}, D = \{d_O,d_A,d_B,d_{AB}\}$.
+We can reduce this problem into a maximum flow problem by constructing a graph $G = (V,E)$ where $V=\{s,t\} \cup X \cup Y$ and $E=\{(x_O,y_O),(x_A,y_O),(x_B,y_O),(x_{AB},y_O),(x_A,y_A),(x_A,y_{AB}),\\(x_B,y_B),(x_B,y_{AB}),(x_{AB},y_{AB},(s,x_O),(s,x_A),(s,x_B),(s,x_{AB})\}$. We associate edge $(Y_i, t)$ with a capacity of $D_i$ and edge $(s, X_i)$ with $S_i$, where $0 \leq i \leq 3$. Any other edge has an infinite capacity. \par 
+The problem is feasible iff. the value of the maximum flow equals $d_O+d_A+d_B+d_{AB}$. 
+
+\begin{algorithm}[H] 
+\SetAlgoLined
+\SetNoFillComment
+\DontPrintSemicolon
+\KwIn{Supplies and demands: $s = \{s_O, s_A,S_B,S_{AB}\}$ and $D =\{d_O,d_A,d_B,d_{AB}\}$.}
+\KwOut{Whether the maximum flow equals $d_O+d_A+d_B+d_{AB}$.}
+Construct the corresponding graph $G$. \;
+Run Ford-Fulkerson algorithm to obtain the maximum flow $f$ of $G$. \;
+\If{$v(f)< d_O+d_A+d_B+d_{AB}$}{
+\Return false
+}
+\Else{
+\Return true
+}
+\caption{\texttt{MAXIMUM-FLOOD-SUPPLY}$(S,D)$}
+\end{algorithm}
+\paragraph{Correctness:} This problem can be turned into the corresponding flow. The flow on the edge $(s,x_i)$ is the number of blood type $i$ on hand, and the flow on the edge $(y_j,t)$ is the number of type $j$ patients that we can satisfy. The flow on the edge $(x_i,y_j)$ denotes the number of type $j$ patients that can receive blood of type $j$. The solution is feasible only if the demands of all patients are satisfied .\par
+Conversely, if the Circulation Problem is feasible, the integer-valued circulation naturally corresponds to a feasible blood supply problem.
+
+\paragraph{Running time analysis:} The time complexity is $O(mn)$ because the upper bound of $C$ equals $d_O+d_A+d_B+d_{AB}$. 
+
+\paragraph{(b)} 
+105 units of blood isn't enough and. We can find a minimum cut$(A,V-A)$, where $A=\{s,x_O,x_A,x_B,x_{AB},y_B,y_{AB}\}$, and thus the value of maximum flow in $G$ is 50+36+10+3 = 99. Here is an allocation corresponds to the maximum flow: the 3 patients with type AB can receive AB, and the 10 patients with type B can receive B. The 50 units of type O can satisfy the need of 45 units of type O and 5 units of type A.
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section*{Problem 3}
+\begin{algorithm}[H] 
+\SetAlgoLined
+\SetNoFillComment
+\DontPrintSemicolon
+\KwIn{A flow network $(G=(V,E),s,t)$ with unit-capacity edges, a parameter $k$.}
+\KwOut{$G$ whose maximum flow is reduced as much as possible.}
+Run Ford-Fulkerson algorithm to obtain the maximum flow $f$ of $G$. \;
+$t = min(v(f),k)$. \;
+\While{t $\neq$ 0}{
+	delete some edge $(s,u)$ if $\omega(s,u)=1$. \;
+	i = i-1 \;
+}
+\While{k > v(f)}{
+	delete some edge whose weight equals 1 in $G$. \;
+	k = k-1 \;
+}
+\Return ($G$)
+\caption{\texttt{REDUCE-MAXIMUM-FLOW}$(G,s,t,k)$}
+\end{algorithm}
+
+\paragraph{Correctness:} First, we find the maximum flow in $G$. $v(f)$ must reduce by 1 if an edge-disjoint path is deleted from $G$; Otherwise, we can recover the path to obtain a maximum flow in $G$ which value is larger than $v(f)$. So we can delete edges that belong to different edge-disjoint paths to reduce the maximum flow in $G$ as much as possible.  \par 
+If $k > v(f)$, $v(f)$ can be reduced to 0, then we can just delete $k-v(f)$ saturated edges.\par
+
+\paragraph{Running time analysis:} The time complexity is dominated by the time taken to perform Ford-Fulkerson algorithm on $G$ and thus is $O(mn)$.
+
+%----------------------------------------------------------------------------------------
+\section*{Problem 4}
+\paragraph{(a)}
+\begin{algorithm}[H] 
+\SetAlgoLined
+\SetNoFillComment
+\DontPrintSemicolon
+\KwIn{ A willing list $L = \{L_1, L_2, \dots,L_k\}$, and a presence list $P =\{p_1, p_2, \dots,p_n\}$.}
+\KwOut{$L^{'}$ if it is feasible; Otherwise $null$.}
+\tcc{Construct a graph $G$.}
+$V = \{s,t\}$, $E = \{\}$ \;
+\For{$i = 1$ to $k$}{
+	$V = V \cup \{(s, x_i)\}$
+}
+\For{$j = 1$ to $n$}{
+	$V = V \cup \{(y_j,t)\}$
+}
+\For{$i = 1$ to $k$}{
+	$E= E \cup \{(s,x_i)\},  c(s, x_i)=L_i$ \;
+	\For{$y \in L_i$}{
+		$E= E \cup \{(x_i,y)\}, c(x_i,y)= 1$
+	}
+}
+\For{$j = 1$ to $n$}{
+	$E= E \cup \{(y_i,t)\}, \; c(y_j,t) = p_j $
+}
+
+$G = (V,E)$ \;
+Obtain the maximum flow $f$ in $G$. \;
+\If{$v(f) = \sum^{p_j}$}{
+$ L^{'} = [] $\;
+\For{$i = 1$ to $k$}{
+	$L^{'}_i $ is the set of $y_j \in Y$ where $f(x_i, y_j) =1$. 
+}
+\Return $L^{'}$}
+\Else{\Return $null$}
+\caption{\texttt{SCHEDULE-MATCH}$(P,L)$}
+\end{algorithm}
+\paragraph{Correctness:} Refer to 2(a). They work in a similar manner.
+\paragraph{Running time analysis:} The time complexity is $O(mn)$ because $C$ is at most $\sum_j{p_j}$. 
+
+\paragraph{(b)} 
+We can modify the algorithm above slightly to satisfy the need. \\
+\begin{algorithm}[H] 
+\SetAlgoLined
+\SetNoFillComment
+\DontPrintSemicolon
+\KwIn{ A willing list $L = \{L_1, L_2, \dots,L_k\}$, a presence list $P =\{p_1, p_2, \dots,p_n\}$, and parameter $c$.}
+\KwOut{$L^{'}$ if it is feasible; Otherwise $null$.}
+Construct a graph $G$ as what we do in \textbf{4(a)}, but $c(s, x_i)= |L_i| + c$.\;
+$E= E \cup \{(y_i,y_{i+1})\} ,c(y_i,y_{i+1} = \infty $  \;
+\For{$i = 1$ to $k$}{
+	Add at most $c$ edge $(x_i,y_k)$ if it doesn't exist.
+}
+\;
+Obtain the maximum flow $f$ in $G = (V, E)$. \;
+\If{$v(f) = \sum_j{p_j}$}{
+$ L^{'} = [] $\;
+\For{$i = 1$ to $n$}{
+	\While{there is a unit of flow goes from $x_i$ to $t$}{
+		$y$ is the last node on the path that $\in Y$, $L^{'}_i = L^{'}_i \cup \{y\}$ \;
+		Delete the unit of flow from $f$.		
+	}
+}
+\Return $L^{'}$}
+\Else{\Return $null$}
+\caption{\texttt{SCHEDULE-MATCH-WITH-C}$(P,L)$}
+\end{algorithm}
+\paragraph{Correctness:} The capacity of $(s, x_i)$ is now $|L_i| + c$ which allows at most $c$ day are not on the list $L_i$. To relieve the imbalance of distribution, we create a circle among $(y_1, y_2, \dots, y_n)$ which allows the additional flow passes some node can be redirected to other nodes along the circle.
+\paragraph{Running time analysis:} The time complexity is $O(mn)$ because $C$ is at most $\sum_j{p_j}$.
+%----------------------------------------------------------------------------------------
+
+\section*{Problem 5} 
+\begin{proof} 
+First, this circulation problem can be reduced to a circulation problem with demands but no lower bounds. Let the graph $G^{’}$ have the same nodes and edges. In $G^{'}$, $e^{'}$ will be $c_e - l_e$ and $d^{'}$, the new demand of node $v$, will be $d_v - l_v$, $l_v = \sum_{e into A}l(e) - \sum_{e out of A}l(e)$. $G^{'}$ has a feasible circulation iff. for all cuts $(A,B)$ and we have\[
+ f^{'}(A,B) = \sum_{v \in A}{f^{'}_{out}(v) - f^{'}_{in}(v)} = - \sum_{v \in A}d^{'}_v \leq c^{'}(A,B).
+\]
+Then we have
+\begin{equation*}
+\begin{split}
+	- \sum_{v \in A}d^{'}_v & \leq c^{'}(A,B)   \\
+	- \sum_{v \in A}(d_v - l_v) & \leq c(A,B) - \sum_{e out of A}l(e) \\ 
+	& \quad (by \; max-flow \;  min-cut \; theorem) \\
+	- \sum_{v \in A}d_v + (\sum_{e into A}l(e) - \sum_{e out of A}l(e)) & \leq c(A,B) - \sum_{e out of A}l(e) \\ 
+	\sum_{e into A}l(e) & \leq c(A,B)  \quad(by \; d(v) = 0) \\
+\end{split}
+\end{equation*}
+\end{proof}
+
+\end{document}

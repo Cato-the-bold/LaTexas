@@ -1,0 +1,133 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=12pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage[ruled,linesnumbered,noend]{algorithm2e} % For typesetting algorithms
+
+\usepackage{graphicx} % For including figures
+\usepackage{titlesec}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{geometry}
+\geometry{a4paper,scale=0.80}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancy} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\linespread{1.1}
+\setlength{\parskip}{0.5\baselineskip}
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+Computer Science 531 \\ Assignment \uppercase\expandafter{\romannumeral3} \\ % The assignment title
+}
+
+\author{Kun Ji} % Your name
+\date{March 30, 2018} % Today's date or a custom date
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+\section*{Problem 1}
+(a)T. \quad Let c be 4 and $n_0$ be 10, $3n^2+2n+7 \leq 4n^2$ for every $n \geq 10.$ \par
+(b)F.  \quad Assume $n^2 \leq cnlogn$ for every $n \geq n_0,$ we get $2^n \leq 2^cn$, which is a contradiction.
+\par
+(c) T. \quad  Let c be 2 and $n_0 be 10, (log_{2}3)n \leq 2n$ for every $n \geq 10.$ \par
+(d) T. \quad  Because $$\lim_{n \to \infty}{\frac{n^2}{n^3}} = 0.$$  \par
+(e)F   \quad Because $$\lim_{n \to \infty}{\frac{n^2}{n^2}} = 1 \neq 0.$$  \par
+(f)F  \quad Because $$\lim_{n \to \infty}{\frac{n}{2n}} = 0.5 \neq 0. $$ \par  
+%----------------------------------------------------------------------------------------
+
+\section*{Problem 2} 
+(a) $O(n^6)$. Refer to Theorem 7.8.  \\
+(b)TRUE. Refer to Theorem 7.8. \\
+(c)FALSE. Strings are not elements of P.  \\
+(d)TRUE. \\
+(e)FALSE. If $L \in TIME(n^2), L\notin TIME(2^{log_2n}) = TIME(n)$.
+
+%----------------------------------------------------------------------------------------
+\section*{Problem 3}
+$ALL_{DFA} = \{<M>| M$ is a DFA and $L(M) = \Sigma^*\}$
+\begin{proof}
+Notice $L(M) \neq \Sigma^*$ when a rejecting state is reachable from the start state. Thus, we can perform a depth first search to visit all states in $M$. Any rejecting state can be identified in polynomial time.
+\end{proof}
+\par
+
+\section*{Problem 4} 
+(a) \quad Define $L_1 = \{<G>|$G has a cycle of length \geq $\lfloor \#(G)/2 \rfloor \}$ and $L_2 = \{<G>|$G has a cycle of length > $\lfloor \#(G)/2 \rfloor \}$. $L_1 and L_2\in NP$ because we can construct a polynomial verifier for each of them.   
+Thus, $HALFCYCLE = L_1 - L_2 \in DP$.
+
+(b) \quad First we show both $\{\emptyset\}$ and $\{\Sigma^*\} \in P$. We can define a DFA $M$ which accepts everything. Since $L(M) \in P$ and $P \subseteq NP$, we get $\{\Sigma^*\} \subseteq NP$. As P is closed under complementation, we can prove $\{\emptyset\} \in NP$ in a similar way.  \par
+Now we show NP $\subseteq$ DP and coNP $\subseteq$ DP. \par
+For any $L \in NP$, $L - \{\emptyset\} \in DP$ since $L \in NP$ and $\{\emptyset\} \in NP$. Thus, $L \in DP$. \par 
+
+For any $L \in coNP$, $\overline{L} \in DP$ since $\{\Sigma^*\} \in NP$ and $\overline{L} \in NP$. Thus, $L \in DP$. \par 
+Hence, $NP \cup coNP \subseteq DP$.
+
+(c) \quad For any $L \in coNP$, $\overline{L} \in NP \subseteq coNP$, there is $L \in NP$. Combing with $NP \subseteq coNP$, we get $NP = coNP$. 
+
+(d) \quad First, we show if $NP = coNP$, $DP = NP \cup coNP$. \par
+If $L = L_1 \cup L_2 \in DP$, where $L_1 \in NP$, $L_2 \in coNP$. As $NP = coNP$, $L_2 \in NP$, $L = L_1 \cup L_2 \in NP = coNP$. That means $DP \subseteq NP \cup coNP$. Combining with the conclusion $NP \cup coNP \subseteq DP$, we know $DP = NP \cup coNP$. \par
+Next, we show if $DP = NP \cup coNP$, $NP = coNP$. \par
+Before that, let us prove $HAMCYCLE \leq_P HALFCYCLE$ by adding to G $|\#(G)|$ isolated vertices. We can also prove $\overline{HAMCYCLE} \leq_P HALFCYCLE$ by adding to G an isolated cycle of size $|\#(G)-1|$. Thus, $HALFCYCLE$ is both NP-hard and coNP-hard.\par
+Now assume $DP = NP \cup coNP$. As $HALFCYCLE \in DP$, $HALFCYCLE$ is either in NP or coNP. If $HALFCYCLE \in NP$, as $HALFCYCLE$ is also coNP-hard, we get $NP = coNP$. Next, consider that $HALFCYCLE \in coNP$, as $HALFCYCLE$ is NP-hard, thus we still have $NP = coNP$. 
+
+\section*{Problem 5}
+(a) \quad \textbf{Independent set problem}: Given a graph $G=(V,E)$, a set of nodes $S \subseteq V$ is independent if no two nodes in $S$ are joined by an edge. We can verify whether a set of vertices $S$ is an independent set by enumerating every pair of vertices among $S$. Since the maximum size of a such set is |V|, the procedure costs $O(V^2)$ time. \par
+\textbf{Vertex cover problem}: Given a graph $G=(V,E)$, a set of nodes $S \subseteq V$ is a vertex cover if every edge $e \in E$ has at least one end is $S$.  We can verify a solution $S$ by enumerating each edge in E, the procedure costs $O(E+V)$ time. \par
+
+\textbf{Subgraph isomorphism problem}: Let $G = (V, E)$ and $H = (V^{'}, E^{'})$ be graphs. Is there a subgraph $G_0 = (V_0, E_0): V_0 \subseteq V, E_0 \subseteq E \cap (V_0$ x $V_0) $ such that $G_0\cong H$? \par
+Because if we are given a specification
+of the subgraph of G and the mapping between its vertices and the vertices of H, we can
+verify in polynomial time that H is indeed isomorphic to the specified subgraph of G. \par
+
+\textbf{Dominating set problem}: A dominating set for a graph G = (V, E) is a subset D of V such that every vertex not in D is adjacent to at least one member of D.  For a set of vertices S, We can check every vertex $v$ in V - S to determine whether v is adjacent to any vertex in S. The procedure costs $O(V+E)$ time. \par\par 
+
+(b) \quad Let $G = (V,E)$ be a graph, S is an independent set iff its complement V -S is a vertex cover. The reduction can be performed in polynomial time.\par
+First, suppose S is an independent set. For any edge $e = (u,v)\in E$,  it cannot be the case that both u and v are in S; so one of them must be in V-S. It follows that $e$ has at least one end in V-S, and thus V - S is a vertex cover. \par
+Conversely, suppose V - S is a vertex cover. Consider any two vertices u and v in S. If they were joined by edge $e$, then neither end of e would lie in V - S. It follows that no two vertices in S are joined by an edge, and so S is an independent set. \par
+Thus $IS \leq_P VC$.
+
+(c) \quad Let $G = (V,E)$ be a graph with n vertices, S is an independent set of size $k$ iff $G^{'} = (V,\overline{E})$, which is a clique of size $k$, is isomorphic to a complete graph $K_l$ on $l$ vertices and $l = min(k, n+1)$. This reduction runs in polynomial time. \par 
+If G contains a independent set S of size $l = k$ iff $\overline{S}$ in $G^'$ is isomorphic to $K_l$. \par 
+Conversely, if a subgraph S in $G^'$ is isomorphic to $K_l$, the vertices in S must be inter-connected, i.e., S is a clique in $G^'$. Thus, $\overline{S}$ is an independent set in $G$. \par 
+Thus, $IS \leq_P SG-ISO$.
+
+(d) \quad Let $G = (V,E)$ be a graph, construct a new graph $G^{'} = G$, and add a new vertex for each edge in $G$, such that there now exists a triangle of edges. That is to say, for an edge $e = (u,v)$, a new vertex $w$ and three edges $(u, v), (u,w), (v,w)$. \par
+Now we show G has a vertex cover S of size $k$ iff there is a dominating set of size $k$ in $G^'$.\par
+If G contains a vertex cover S, each edge in G is incident to at least one vertex in S. Therefore, in each triangle of vertices in $G^'$, there is at least one vertex $\in$ S. It can be proved that any vertex in V - S must be adjacent to a vertex in S. Thus, $G^'$ has a dominating set that has a size of $k$.\par
+If $G^'$ contains a dominating set $S^'$ of size $k$, there will be at least one vertex in a triangle that belongs to $S^'$. If the new created $w \in S^'$, we can replace w with u or v, and the new set is still a dominating set: w is only adjacent to u and v. Since w responds to the edge (u,v), and w is covered by the new dominating set, that means all the edges in G are covered by the dominating set. So if $G^'$ has a dominating set of size $k$, then G has a vertex cover of size $k$.  
+
+\end{document}

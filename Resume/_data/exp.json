@@ -1,0 +1,41 @@
+[
+    {
+        "company": "The Third Research Institute of MPC",
+        "company_location": "Shanghai, China",
+        "role": "Software Engineer",
+        "team": "eID Division",
+        "time_duration": "Jun 2013 -- Nov 2015",
+        "details": [
+            {
+                "description": "Setting up Percona Master/Slave replication, wrote scripts that perform and manage database backups."
+            },
+            {
+                "description": "Performed database performance testing and tuning."
+            },
+            {
+                "description": "Implemented and tested server-side logic of token management module."
+            },
+            {
+                "description": "Misc: real time position tracking using Baidu Map API, and APNs-relavant API..."
+            }
+        ]
+    },
+    {
+        "company": "Trend Micro",
+        "company_location": "Nanjing, China",
+        "role": "Full Stack Developer Intern",
+        "team": "IWSVA team",
+        "time_duration": "Aug 2012 -- May 2013",
+        "details": [
+            {
+                "description": "Developed RESTful APIs opened to third party developers."
+            },
+            {
+                "description": "Wrote corresponding Ajax code using jQuery."
+            },
+            {
+                "description": "Appended new security reports using Jasper Report."
+            },
+        ]
+    },
+]

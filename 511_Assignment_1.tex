@@ -1,0 +1,152 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Adapted from a template by
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=12pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage[ruled,linesnumbered,noend]{algorithm2e} % For typesetting algorithms
+
+\usepackage{graphicx} % For including figures
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength{\baselineskip}{1.5em}
+\linespread{1.0}
+\setlength{\parskip}{1em}
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Iowa State University, Computer Science Department} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Computer Science 511 \\ Assignment 1 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Kun Ji} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+\section{CLRS 23.1-7}
+First, we show that any suitable subset of edges is a tree. Assume there exists some subset of edges which is not a tree, it must contain at least a cycle. We can remove some edges to obtain a spanning tree that has $n - 1$ vertices. Because all edges are of positive weights, the total weight of the new spanning tree would become smaller and this is a contradiction.\par
+If negative edge weights are allowed, the conclusion would not hold. Consider a graph $G$ that has three vertices and three edges with weights 1, 1 and -2, the optimal subset of edges comprises all the three edges and hence does not form a tree.
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{CLRS 23.1-9}
+
+\paragraph{Proof} Suppose the minimum spanning tree of $G^{'}$ is $T^{"}$ so that $\omega(T^{"}) < \omega(T^{'})$. Let $S$ be the subset of edges $(T - T^{'})$. Then we can combine $T^{"}$ and $S$ to construct a new minimum spanning tree of G; the edges cross the cut ($V^{'}$,$V$-$V^{'}$) are still light edges, the other edges in $(T - T^{'})$ are not affected by the division and still a part of minimum spanning tree. The total weight of the new MST is 
+$\omega(T^{"})+\omega(S) < \omega(T^{'})+\omega(S) = \omega(T)$. Thus, we get a contradiction because $T$ is a minimum spanning tree of $G$. Hence $T^{'}$ must be a minimum spanning tree of $G^{'}$.
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+\section{CLRS 23.1-10}
+
+\paragraph{Proof} Since edge $(x,y) \in T$,  and removing $(x,y)$ breaks $T$ into two components $T^{'}$ and $T - \{(x,y)\} - T^{'}$. Let $S$ be the vertices in $T^{'}$ and its complement is $V - S$. After the weight of $(x,y)$ is decreased, $(x,y)$ is still a light edge crossing $(S, V - S)$ and thus must be in some MST of $G^{'}$. Besides, the two components of $T$ are still the MST's of the two sub-graphs which are separated by the edges cross $(S, V - S)$. Since $(x,y)$, $T^{'}$ and $T - \{(x,y)\} - T^{'}$ still are in the new MST, we show that $T$ remains a MST for $G$. 
+
+%----------------------------------------------------------------------------------------
+
+\section{KT 4-19}   
+
+\paragraph{Algorithm description.} We can construct an algorithm analogous to Kruskal's algorithm except that at each step our algorithm adds a maximum-weight edge if possible. This greedy strategy manages a set of edges $A$, maintaining the following loop invariant:
+\begin{center}
+Prior to each iteration, $A$ is a subset of the tree we want. 
+\end{center}
+At each step, we determine an edge ($u, v$) that does not violate this invariant. Initially, $A$ is empty and we create |$V$| trees, one containing each vertex. And at each iteration, the edge to be added must be a maximum-weight edge which connects two components in the forest.
+Thus, the solution can be obtained after |$V - 1$| steps.
+
+\begin{algorithm}[H] 
+\SetAlgoLined
+\SetNoFillComment
+\DontPrintSemicolon
+\KwIn{Connected, undirected graph $G=(V,E)$ with edge weight function $w$.}
+\KwOut{A spanning tree $A$ which achieves best achievable bottleneck rate for any path in $G$.}
+$A = \emptyset$ \;
+\ForEach{$v \in V$}{\texttt{MAKE-SET}($v$)}
+sort the edges of $G.E$ into descending order by weight $w$ \;
+\ForEach{edge $(u, v) \in G.E$, taken in descending order }{
+	\If{\texttt{FIND-SET}($u$) $\neq$ \texttt{FIND-SET}($v$)}{
+		$A = A \cup \{(u, v)\}$ \;
+		\texttt{UNION}($u, v$) 
+	}
+}
+\Return $A$ 
+\caption{\texttt{Best-Bottlenect-Rate}$(G,w)$}
+\end{algorithm}
+
+\begin{lemma} Given two spanning trees $T_{1}$, $T_{2}$ and the maximum-weight edge that connects them is $(u, v)$, where $u \in T_{1}$ and  $v \in T_{2}$, and $\omega(u, v)$ is less than the weight of any edge in $T_{1}$ and $T_{2}$. Then for any path $P$ in $T$ that passes $(u, v)$, $b(P)$ = $\omega(u, v)$.
+\end{lemma}
+
+\begin{proof} The conclusion is intuitive.
+\end{proof}
+
+\begin{theorem} Assume a forest $F$ has components $C_{1}, C_{2}, \cdots, C_{k}$ and the spanning tree of any component in $F$ is a part of the optimal spanning tree $T$, the maximum-weight edge that can connect two components in the forest must belong to $T$. 
+\end{theorem}
+
+\begin{proof} It can be proved by induction on number of iterations.
+Initially, there are $|V| - 1$ trees. Assume the maximum-weight edge is $(u, v)$, $b(u \to v)$ is apparently $\omega(u, v)$. Then we can combine $u$ and $v$ into a component because the selection of next edge does not affect the value of $b(u \to v)$.
+ 
+Suppose the claim holds after $k - 1$ iterations. Then the vertices in the same component are connected with each other and the edges in the component belongs to $T$. Now assume the maximum-weight edge that can connect any two components is $(u, v)$ but the edge does not belong to $T$. Then for any pair of nodes $u$, $v$ which belong to two different components, there exists a path $P$ that does not contain $(u, v)$ and $b(P) < \omega(u, v)$. This conclusion contradicts with the assumption that $b(P) \geq \omega(u, v)$.\par Therefore, $(u, v)$ must belong to $T$. This claim holds when edge weights are not all distinct because we can add the edges with the same weight consecutively.
+\end{proof}
+\paragraph{Running time.} The time to sort the edges in line 4 is $O(E lgE)$. The \emph{for} loop of lines 5-8 performs $O(E)$ \texttt{FIND-SET} and \texttt{UNION} operations. Each operation takes $O(lgE)$ time. Observing that $|E| < |V|^{2}$, we have $lgE = O(lg V)$, and hence the running of time of this algorithm is $O(ElgV)$.
+
+%----------------------------------------------------------------------------------------
+\section{KT 4-22}
+\paragraph{Answer.} It is possible $T$ is not a minimum spanning tree  and a counterexmaple is provided in Figure \ref{fig:d1}. To illustrate why this conclusion is incorrect, let's assume there are two minimum spanning trees in $G$: $T$ and $T^{'}$. And the edges in them that cross some cut ($S$, $V-S$) are $e$ and $e^{'}$, respectively. Thus, we can construct a spanning tree $T^{"}$ by add $e^{'}$ to $T$ and delete another edge that does not cross ($S$, $V-S$). It is easy to verify $T^{"}$ is a spanning tree that satisfies all the necessary conditions. However, the weight of deleted edge could be larger than the weight of $e^{'}$. It is possible because $e^{'}$ is only a light edge cross ($S$, $V-S$) but its weight could be significantly large. 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=1.0]{diag1.eps}
+\caption{\textbf{(a)} A simple connected, undirected graph $G=(V,E)$. \textbf{(b) and (c)} Two MST's in $G$ can be obtained easily. \textbf{(d)} A spanning tree in which every edge belongs to one of the MST's. Apparently, this spanning tree is not a MST.}
+\label{fig:d1}
+\end{figure}
+
+
+
+\end{document}
